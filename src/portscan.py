@@ -17,18 +17,12 @@ def tcp_scan(host, port, timeout):
         packet = IP(dst=host) / TCP(dport=port, flags='S')
         response = sr1(packet, timeout=timeout, verbose=False)
 
-        scan_result = ScanResult(proto, port, CLOSED)
         if response is None:
             scan_result = ScanResult(proto, port, TIMEOUT)
-
         elif response.haslayer(TCP) and response.getlayer(TCP).flags == 0x12:
-            protocol = NO_PROTO
-
             scan_result = ScanResult(proto, port, OPEN,
-                                     (response.time - packet.sent_time) * 1000,
-                                     protocol)
-
-        elif response.getlayer(TCP).flags == 0x14:
+                                     (response.time - packet.sent_time) * 1000)
+        else:
             scan_result = ScanResult(proto, port, CLOSED)
 
         scan_results.append(scan_result)
@@ -47,15 +41,13 @@ def udp_scan(host, port, timeout):
         packet = IP(dst=host) / UDP(dport=port)
         response = sr1(packet, timeout=timeout, verbose=False)
 
-        if (response is None or (response.haslayer(ICMP)
-                                 and response.getlayer(ICMP).type == 3)):
+        if not response:
             scan_result = ScanResult(proto, port, OPEN_FILTERED)
-            scan_results.append(scan_result)
-            return
-
-        scan_result = ScanResult(proto, port, OPEN,
-                                 (response.time - packet.sent_time) * 1000,
-                                 NO_PROTO)
+        elif response.haslayer(ICMP) and response.getlayer(ICMP).type == 3:
+            scan_result = ScanResult(proto, port, CLOSED)
+        else:
+            scan_result = ScanResult(proto, port, OPEN,
+                                     (response.time - packet.sent_time) * 1000)
         scan_results.append(scan_result)
 
     except Exception as e:
