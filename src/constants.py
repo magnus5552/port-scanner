@@ -1,0 +1,5 @@
+TIMEOUT = 'Timeout'
+OPEN_FILTERED = 'Open|Filtered'
+OPEN = 'Open'
+CLOSED = 'Closed'
+NO_PROTO = '-'
