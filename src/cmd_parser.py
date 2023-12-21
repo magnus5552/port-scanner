@@ -6,7 +6,7 @@ def configure_parser():
     parser.add_argument('target_ip', type=str, help='Target IP address')
     parser.add_argument('ports', type=str,
                         help='Ports to scan (e.g. "tcp/80 tcp/12000-12500 udp/3000-3100,3200,3300-4000")')
-    parser.add_argument('--timeout', type=int, default=2,
+    parser.add_argument('--timeout', type=float, default=2,
                         help='Timeout for response (default: 2s)')
     parser.add_argument('-j', '--num-threads', type=int, default=100,
                         help='Number of threads (default: 100)')
