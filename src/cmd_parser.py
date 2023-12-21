@@ -8,8 +8,8 @@ def configure_parser():
                         help='Ports to scan (e.g. "tcp/80 tcp/12000-12500 udp/3000-3100,3200,3300-4000")')
     parser.add_argument('--timeout', type=int, default=2,
                         help='Timeout for response (default: 2s)')
-    parser.add_argument('-j', '--num-threads', type=int, default=1,
-                        help='Number of threads (default: 1)')
+    parser.add_argument('-j', '--num-threads', type=int, default=100,
+                        help='Number of threads (default: 100)')
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='Verbose mode')
     parser.add_argument('-a', '--all', action='store_true',

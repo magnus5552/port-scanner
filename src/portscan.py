@@ -41,7 +41,7 @@ def tcp_scan(host, port, timeout):
 
 
 # Функция сканирования UDP портов
-def udp_scan(host, port, timeout, guess):
+def udp_scan(host, port, timeout):
     proto = 'UDP'
     try:
         packet = IP(dst=host) / UDP(dport=port)
@@ -83,7 +83,7 @@ def port_scan(host, ports, timeout, num_threads, verbose, guess,
         if protocol.upper() == 'TCP':
             tcp_scan(host, port, timeout)
         elif protocol.upper() == 'UDP':
-            udp_scan(host, port, timeout, guess)
+            udp_scan(host, port, timeout)
 
     def guess_proto(scan_result):
         app_proto = guess_application_protocol(host, scan_result.port,
